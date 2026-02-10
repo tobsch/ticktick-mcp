@@ -12,6 +12,7 @@ mcp = FastMCP("ticktick_mcp")
 
 mcp.add_tool(get_projects)
 mcp.add_tool(project_details)
+mcp.add_tool(get_today_tasks)
 mcp.add_tool(get_task_details)
 mcp.add_tool(create_project)
 mcp.add_tool(create_task)
@@ -46,4 +47,4 @@ app = Starlette(routes=routes)
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=58321)

@@ -1,4 +1,6 @@
 import httpx
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 from mcp.server.fastmcp import FastMCP
 from config import TICKTICK_API_BASE, HEADERS
 
@@ -25,6 +27,49 @@ async def project_details(project_id: str):
     async with httpx.AsyncClient() as client:
         response = await client.get(url, headers=HEADERS)
         return response.json()
+
+
+@mcp.tool()
+async def get_today_tasks(timezone: str = "Asia/Jakarta"):
+    """
+    Returns all tasks due today across all projects.
+
+    Args:
+        timezone: IANA timezone string (default: Asia/Jakarta).
+    """
+    tz = ZoneInfo(timezone)
+    today_start = datetime.now(tz).replace(hour=0, minute=0, second=0, microsecond=0)
+    today_end = today_start + timedelta(days=1)
+
+    async with httpx.AsyncClient() as client:
+        # Get all projects
+        resp = await client.get(f"{TICKTICK_API_BASE}/project", headers=HEADERS)
+        projects = resp.json()
+
+        today_tasks = []
+        for project in projects:
+            pid = project["id"]
+            pname = project.get("name", "")
+            resp = await client.get(
+                f"{TICKTICK_API_BASE}/project/{pid}/data", headers=HEADERS
+            )
+            data = resp.json()
+            tasks = data.get("tasks", [])
+            for task in tasks:
+                due = task.get("dueDate") or task.get("startDate")
+                if not due:
+                    continue
+                # Parse TickTick date format (e.g. "2019-11-13T03:00:00+0000")
+                try:
+                    dt = datetime.fromisoformat(due.replace("+0000", "+00:00"))
+                    dt_local = dt.astimezone(tz)
+                    if today_start <= dt_local < today_end:
+                        task["_projectName"] = pname
+                        today_tasks.append(task)
+                except (ValueError, TypeError):
+                    continue
+
+        return today_tasks
 
 
 @mcp.tool()
