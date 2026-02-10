@@ -44,7 +44,8 @@ async def get_today_tasks(timezone: str = "Asia/Jakarta"):
     async with httpx.AsyncClient() as client:
         # Get all projects
         resp = await client.get(f"{TICKTICK_API_BASE}/project", headers=HEADERS)
-        projects = resp.json()
+        data = resp.json()
+        projects = data if isinstance(data, list) else data.get("projects", [])
 
         today_tasks = []
         for project in projects:
