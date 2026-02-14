@@ -103,17 +103,15 @@ async def create_project(project_name: str):
 async def create_task(
     project_id: str,
     title: str,
-    content: str | None = None,
-    desc: str | None = None,
-    isAllDay: bool | None = None,
-    startDate: str | None = None,
-    dueDate: str | None = None,
-    timeZone: str | None = None,
-    reminders: list | None = None,
-    repeatFlag: str | None = None,
-    priority: int | None = 0,
-    sortOrder: int | None = None,
-    items: list | None = None,
+    content: str = "",
+    desc: str = "",
+    isAllDay: bool = False,
+    startDate: str = "",
+    dueDate: str = "",
+    timeZone: str = "",
+    repeatFlag: str = "",
+    priority: int = 0,
+    sortOrder: int = 0,
 ):
     """
     Creates a new task in TickTick.
@@ -127,42 +125,33 @@ async def create_task(
         startDate: Start date/time (e.g., "2019-11-13T03:00:00+0000").
         dueDate: Due date/time (e.g., "2019-11-13T03:00:00+0000").
         timeZone: Time zone for the dates.
-        reminders: List of reminders.
         repeatFlag: Recurrence rules.
         priority: Task priority (0=Normal, higher=higher priority).
         sortOrder: Sort order.
-        items: List of subtasks (dicts with keys like 'title', 'startDate', etc.).
     """
     url = f"{TICKTICK_API_BASE}/task"
     payload = {
         "projectId": project_id,
         "title": title,
     }
-    if content is not None:
+    if content:
         payload["content"] = content
-    if desc is not None:
+    if desc:
         payload["desc"] = desc
-    if isAllDay is not None:
+    if isAllDay:
         payload["isAllDay"] = isAllDay
-    if startDate is not None:
+    if startDate:
         payload["startDate"] = startDate
-    if dueDate is not None:
+    if dueDate:
         payload["dueDate"] = dueDate
-    if timeZone is not None:
+    if timeZone:
         payload["timeZone"] = timeZone
-    if reminders is not None:
-        payload["reminders"] = reminders
-    if repeatFlag is not None:
+    if repeatFlag:
         payload["repeatFlag"] = repeatFlag
-    if priority is not None:
+    if priority:
         payload["priority"] = priority
-    if sortOrder is not None:
+    if sortOrder:
         payload["sortOrder"] = sortOrder
-    if items is not None:
-        payload["items"] = items
-
-    if isAllDay is False and startDate is None:
-        pass
 
     async with httpx.AsyncClient() as client:
         response = await client.post(url, headers=HEADERS, json=payload)
@@ -173,18 +162,16 @@ async def create_task(
 async def update_task(
     task_id: str,
     project_id: str,
-    title: str | None = None,
-    content: str | None = None,
-    desc: str | None = None,
-    isAllDay: bool | None = None,
-    startDate: str | None = None,
-    dueDate: str | None = None,
-    timeZone: str | None = None,
-    reminders: list | None = None,
-    repeatFlag: str | None = None,
-    priority: int | None = None,
-    sortOrder: int | None = None,
-    items: list | None = None,
+    title: str = "",
+    content: str = "",
+    desc: str = "",
+    isAllDay: bool = False,
+    startDate: str = "",
+    dueDate: str = "",
+    timeZone: str = "",
+    repeatFlag: str = "",
+    priority: int = 0,
+    sortOrder: int = 0,
 ):
     """
     Updates a task in TickTick.
@@ -199,44 +186,35 @@ async def update_task(
         startDate: Start date/time (e.g., "2019-11-13T03:00:00+0000").
         dueDate: Due date/time (e.g., "2019-11-13T03:00:00+0000").
         timeZone: Time zone for the dates.
-        reminders: List of reminders.
         repeatFlag: Recurrence rules.
         priority: Task priority (0=Normal, higher=higher priority).
         sortOrder: Sort order.
-        items: List of subtasks (dicts with keys like 'title', 'startDate', etc.).
     """
     url = f"{TICKTICK_API_BASE}/task/{task_id}"
     payload = {
         "id": task_id,
         "projectId": project_id,
     }
-    if title is not None:
+    if title:
         payload["title"] = title
-    if content is not None:
+    if content:
         payload["content"] = content
-    if desc is not None:
+    if desc:
         payload["desc"] = desc
-    if isAllDay is not None:
+    if isAllDay:
         payload["isAllDay"] = isAllDay
-    if startDate is not None:
+    if startDate:
         payload["startDate"] = startDate
-    if dueDate is not None:
+    if dueDate:
         payload["dueDate"] = dueDate
-    if timeZone is not None:
+    if timeZone:
         payload["timeZone"] = timeZone
-    if reminders is not None:
-        payload["reminders"] = reminders
-    if repeatFlag is not None:
+    if repeatFlag:
         payload["repeatFlag"] = repeatFlag
-    if priority is not None:
+    if priority:
         payload["priority"] = priority
-    if sortOrder is not None:
+    if sortOrder:
         payload["sortOrder"] = sortOrder
-    if items is not None:
-        payload["items"] = items
-
-    if isAllDay is False and startDate is None:
-        pass
 
     async with httpx.AsyncClient() as client:
         response = await client.post(url, headers=HEADERS, json=payload)
