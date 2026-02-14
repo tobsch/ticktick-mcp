@@ -2,7 +2,7 @@ name: "TickTick MCP"
 description: "Model Context Protocol server for TickTick task management"
 version: "1.0.0"
 slug: "ticktick-mcp"
-url: "https://github.com/tobias/ticktick-mcp"
+url: "https://github.com/tobsch/ticktick-mcp"
 arch:
   - amd64
   - aarch64
