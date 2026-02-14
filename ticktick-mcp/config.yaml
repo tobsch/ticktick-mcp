@@ -1,6 +1,6 @@
 name: "TickTick MCP"
 description: "Model Context Protocol server for TickTick task management"
-version: "1.0.0"
+version: "1.0.1"
 slug: "ticktick-mcp"
 url: "https://github.com/tobsch/ticktick-mcp"
 arch:

@@ -16,5 +16,5 @@ CMD ["/run.sh"]
 LABEL \
     io.hass.name="TickTick MCP" \
     io.hass.description="Model Context Protocol server for TickTick task management" \
-    io.hass.version="1.0.0" \
+    io.hass.version="1.0.1" \
     io.hass.type="addon"
