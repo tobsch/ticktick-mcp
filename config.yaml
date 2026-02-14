@@ -1,0 +1,22 @@
+name: "TickTick MCP"
+description: "Model Context Protocol server for TickTick task management"
+version: "1.0.0"
+slug: "ticktick-mcp"
+url: "https://github.com/tobias/ticktick-mcp"
+arch:
+  - amd64
+  - aarch64
+startup: application
+init: false
+ports:
+  58321/tcp: 58321
+ports_description:
+  58321/tcp: "MCP SSE server"
+options:
+  ticktick_api_key: ""
+  port: 58321
+  timezone: "UTC"
+schema:
+  ticktick_api_key: str
+  port: port
+  timezone: str
